@@ -1,0 +1,56 @@
+<div class="px-4 py-4">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">Events</h1>
+  <p class="text-gray-500 text-sm mb-4">What's happening at FBC Enumclaw</p>
+
+  <!-- Category Filter -->
+  <div class="flex gap-2 overflow-x-auto pb-2 mb-4 -mx-4 px-4 scrollbar-hide">
+    <%= link_to "All", events_path, class: "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-medium #{params[:category].blank? || params[:category] == 'all' ? 'bg-church-navy text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <% Event::CATEGORIES.first(6).each do |cat| %>
+      <%= link_to cat.humanize, events_path(category: cat), class: "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-medium #{params[:category] == cat ? 'bg-church-navy text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <% end %>
+  </div>
+
+  <!-- Events List -->
+  <% if @upcoming_events.any? %>
+    <div class="space-y-3">
+      <% @upcoming_events.each do |event| %>
+        <%= link_to event_path(event), class: "block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden", data: { turbo_action: "advance" } do %>
+          <% if event.image_url.present? %>
+            <img src="<%= event.image_url %>" alt="<%= event.title %>" class="w-full h-40 object-cover">
+          <% end %>
+          <div class="flex gap-3 p-4">
+            <div class="bg-church-navy rounded-xl p-2 text-center min-w-[56px] h-[56px] flex flex-col items-center justify-center">
+              <div class="text-church-gold text-xs font-bold uppercase leading-none"><%= event.starts_at.strftime("%b") %></div>
+              <div class="text-white text-xl font-bold leading-tight"><%= event.starts_at.strftime("%-d") %></div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="font-semibold text-gray-900 text-sm leading-tight"><%= event.title %></h3>
+                <% if event.featured? %>
+                  <span class="flex-shrink-0 bg-church-gold/20 text-church-gold text-xs font-semibold px-2 py-0.5 rounded-full">Featured</span>
+                <% end %>
+              </div>
+              <p class="text-gray-500 text-xs mt-0.5"><%= event.formatted_time %></p>
+              <p class="text-gray-500 text-xs"><%= event.location %></p>
+              <% if event.recurring? %>
+                <span class="inline-flex items-center gap-1 mt-1 text-xs text-church-navy">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+                  Weekly
+                </span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
+        </svg>
+      </div>
+      <p class="text-gray-500 text-sm">No upcoming events in this category.</p>
+    </div>
+  <% end %>
+</div>

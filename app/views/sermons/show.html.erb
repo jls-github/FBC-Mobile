@@ -1,0 +1,113 @@
+<!-- Back Button -->
+<div class="px-4 pt-4 pb-2">
+  <%= link_to sermons_path, class: "flex items-center gap-1 text-church-navy text-sm font-medium", data: { turbo_action: "advance" } do %>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+    </svg>
+    All Sermons
+  <% end %>
+</div>
+
+<!-- Video Player or Thumbnail -->
+<div class="bg-church-navy aspect-video relative">
+  <% if @sermon.youtube_embed_id %>
+    <iframe
+      src="https://www.youtube.com/embed/<%= @sermon.youtube_embed_id %>?rel=0&modestbranding=1"
+      class="w-full h-full"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+    </iframe>
+  <% else %>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center text-white">
+        <div class="w-20 h-20 bg-church-gold rounded-full flex items-center justify-center mx-auto mb-3">
+          <svg class="w-10 h-10 text-church-navy ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <p class="text-white/60 text-sm">Video not available</p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<!-- Sermon Info -->
+<div class="px-4 py-5">
+  <% if @sermon.sermon_series %>
+    <span class="text-xs font-semibold text-church-gold uppercase tracking-wide"><%= @sermon.sermon_series.name %></span>
+  <% end %>
+  <h1 class="text-xl font-bold text-gray-900 mt-1 leading-tight"><%= @sermon.title %></h1>
+  <div class="flex items-center gap-2 mt-2 flex-wrap">
+    <span class="text-gray-600 text-sm"><%= @sermon.speaker %></span>
+    <% if @sermon.preached_on %>
+      <span class="text-gray-300">·</span>
+      <span class="text-gray-500 text-sm"><%= @sermon.preached_on.strftime("%B %-d, %Y") %></span>
+    <% end %>
+    <% if @sermon.formatted_duration %>
+      <span class="text-gray-300">·</span>
+      <span class="text-gray-500 text-sm"><%= @sermon.formatted_duration %></span>
+    <% end %>
+  </div>
+  <% if @sermon.scripture_reference.present? %>
+    <div class="inline-flex items-center gap-1.5 bg-church-navy/5 rounded-lg px-3 py-1.5 mt-3">
+      <svg class="w-3.5 h-3.5 text-church-navy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+      </svg>
+      <span class="text-church-navy text-sm font-semibold"><%= @sermon.scripture_reference %></span>
+    </div>
+  <% end %>
+
+  <!-- Audio Download -->
+  <% if @sermon.has_audio? %>
+    <a href="<%= @sermon.audio_url %>" class="flex items-center gap-2 mt-3 bg-gray-100 rounded-xl px-4 py-3 w-full text-left">
+      <svg class="w-5 h-5 text-church-navy" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"/>
+      </svg>
+      <span class="text-gray-700 text-sm font-medium">Listen to Audio</span>
+    </a>
+  <% end %>
+
+  <!-- Description -->
+  <% if @sermon.description.present? %>
+    <div class="mt-4">
+      <h2 class="font-semibold text-gray-900 mb-2">About This Message</h2>
+      <p class="text-gray-600 text-sm leading-relaxed"><%= @sermon.description %></p>
+    </div>
+  <% end %>
+
+  <!-- Share -->
+  <div class="flex gap-2 mt-5">
+    <button class="flex-1 flex items-center justify-center gap-2 border border-gray-200 rounded-xl py-2.5 text-gray-600 text-sm font-medium" onclick="navigator.share && navigator.share({title: '<%= j @sermon.title %>', url: window.location.href})">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/>
+      </svg>
+      Share
+    </button>
+    <%= link_to prayer_requests_path, class: "flex-1 flex items-center justify-center gap-2 bg-church-navy text-white rounded-xl py-2.5 text-sm font-medium" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+      </svg>
+      Prayer Request
+    <% end %>
+  </div>
+</div>
+
+<!-- Related Sermons -->
+<% if @related_sermons.any? %>
+  <div class="border-t border-gray-100 px-4 py-4">
+    <h2 class="font-semibold text-gray-900 mb-3">More Messages</h2>
+    <div class="space-y-3">
+      <% @related_sermons.each do |sermon| %>
+        <%= link_to sermon_path(sermon), class: "flex gap-3 items-start", data: { turbo_action: "advance" } do %>
+          <div class="w-14 h-14 bg-church-navy rounded-lg flex items-center justify-center flex-shrink-0">
+            <div class="w-7 h-7 bg-church-gold rounded-full flex items-center justify-center">
+              <svg class="w-3.5 h-3.5 text-church-navy ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-sm font-medium text-gray-900 line-clamp-2 leading-tight"><%= sermon.title %></h3>
+            <p class="text-xs text-gray-500 mt-0.5"><%= sermon.preached_on&.strftime("%B %-d") %> · <%= sermon.formatted_duration %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

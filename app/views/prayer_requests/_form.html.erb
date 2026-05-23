@@ -1,0 +1,41 @@
+<div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+  <h2 class="font-bold text-gray-900 mb-1">Submit a Prayer Request</h2>
+  <p class="text-gray-500 text-xs mb-4">Your request will be shared with our prayer team.</p>
+
+  <%= form_with model: prayer_request, url: prayer_requests_path, data: { turbo: true } do |f| %>
+    <% if prayer_request.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-xl p-3 mb-4 text-sm text-red-600">
+        <% prayer_request.errors.full_messages.each do |msg| %>
+          <div><%= msg %></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="space-y-3">
+      <div>
+        <%= f.label :name, "Your Name", class: "block text-xs font-medium text-gray-700 mb-1" %>
+        <%= f.text_field :name, placeholder: "First name or full name", class: "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy focus:border-transparent" %>
+      </div>
+      <div>
+        <%= f.label :email, "Email (optional)", class: "block text-xs font-medium text-gray-700 mb-1" %>
+        <%= f.email_field :email, placeholder: "your@email.com", class: "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy focus:border-transparent" %>
+      </div>
+      <div>
+        <%= f.label :request, "Prayer Request", class: "block text-xs font-medium text-gray-700 mb-1" %>
+        <%= f.text_area :request, placeholder: "Share your prayer need...", rows: 4, class: "w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy focus:border-transparent resize-none" %>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
+          <%= f.check_box :anonymous, class: "w-4 h-4 text-church-navy rounded" %>
+          <%= f.label :anonymous, "Keep anonymous", class: "text-sm text-gray-600" %>
+        </div>
+        <div class="flex items-center gap-2">
+          <%= f.check_box :public_display, class: "w-4 h-4 text-church-navy rounded" %>
+          <%= f.label :public_display, "Share on wall", class: "text-sm text-gray-600" %>
+        </div>
+      </div>
+    </div>
+
+    <%= f.submit "Submit Prayer Request", class: "mt-4 w-full bg-church-navy text-white font-bold py-3.5 rounded-2xl text-sm cursor-pointer hover:bg-blue-900 transition-colors" %>
+  <% end %>
+</div>

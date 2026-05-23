@@ -1,0 +1,12 @@
+<div class="bg-white rounded-xl border border-gray-100 shadow-sm p-4">
+  <div class="flex items-center gap-2 mb-2">
+    <div class="w-8 h-8 bg-church-navy rounded-full flex items-center justify-center text-white text-xs font-bold">
+      <%= prayer_request.display_name.first.upcase %>
+    </div>
+    <div>
+      <div class="text-sm font-semibold text-gray-900"><%= prayer_request.display_name %></div>
+      <div class="text-xs text-gray-400"><%= prayer_request.created_at.strftime("%B %-d") %></div>
+    </div>
+  </div>
+  <p class="text-gray-600 text-sm leading-relaxed"><%= prayer_request.request %></p>
+</div>
