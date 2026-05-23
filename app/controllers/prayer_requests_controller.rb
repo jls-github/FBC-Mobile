@@ -14,11 +14,13 @@ class PrayerRequestsController < ApplicationController
     if @prayer_request.save
       respond_to do |format|
         format.turbo_stream {
-          render turbo_stream: [
-            turbo_stream.replace("prayer-form", partial: "prayer_requests/success"),
-            turbo_stream.prepend("public-prayers", partial: "prayer_requests/prayer_card",
-              locals: { prayer_request: @prayer_request }) if @prayer_request.public_display?
-          ]
+          streams = [ turbo_stream.replace("prayer-form", partial: "prayer_requests/success") ]
+          if @prayer_request.public_display?
+            streams << turbo_stream.prepend("public-prayers",
+              partial: "prayer_requests/prayer_card",
+              locals: { prayer_request: @prayer_request })
+          end
+          render turbo_stream: streams
         }
         format.html { redirect_to prayer_requests_path, notice: "Your prayer request has been submitted. We are praying for you!" }
       end
