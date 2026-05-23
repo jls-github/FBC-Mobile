@@ -1,0 +1,39 @@
+<% content_for :page_title, "Groups" %>
+<div class="flex justify-between items-center mb-6">
+  <p class="text-gray-500 text-sm"><%= @groups.count %> total</p>
+  <%= link_to "+ New Group", new_admin_group_path, class: "bg-church-navy text-white text-sm font-semibold px-4 py-2 rounded-lg" %>
+</div>
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wide">
+      <tr>
+        <th class="text-left px-4 py-3">Name</th>
+        <th class="text-left px-4 py-3 hidden md:table-cell">Leader</th>
+        <th class="text-left px-4 py-3 hidden md:table-cell">Schedule</th>
+        <th class="text-left px-4 py-3 hidden lg:table-cell">Status</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @groups.each do |group| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3">
+            <div class="font-medium text-gray-900"><%= group.name %></div>
+            <span class="text-xs text-gray-400"><%= group.category_label %></span>
+          </td>
+          <td class="px-4 py-3 text-gray-500 hidden md:table-cell"><%= group.leader_name %></td>
+          <td class="px-4 py-3 text-gray-500 hidden md:table-cell"><%= group.meeting_schedule %></td>
+          <td class="px-4 py-3 hidden lg:table-cell">
+            <span class="text-xs px-2 py-0.5 rounded-full <%= group.open_enrollment? ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' %>">
+              <%= group.open_enrollment? ? "Open" : "Closed" %>
+            </span>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "Edit", edit_admin_group_path(group), class: "text-church-navy text-xs font-medium mr-3" %>
+            <%= button_to "Delete", admin_group_path(group), method: :delete, data: { confirm: "Delete this group?" }, class: "text-red-500 text-xs font-medium" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

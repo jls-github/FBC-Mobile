@@ -1,0 +1,37 @@
+<% content_for :page_title, "Announcements" %>
+<div class="flex justify-between items-center mb-6">
+  <p class="text-gray-500 text-sm"><%= @announcements.count %> total</p>
+  <%= link_to "+ New Announcement", new_admin_announcement_path, class: "bg-church-navy text-white text-sm font-semibold px-4 py-2 rounded-lg" %>
+</div>
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wide">
+      <tr>
+        <th class="text-left px-4 py-3">Title</th>
+        <th class="text-left px-4 py-3 hidden md:table-cell">Published</th>
+        <th class="text-left px-4 py-3 hidden md:table-cell">Status</th>
+        <th class="px-4 py-3"></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <% @announcements.each do |a| %>
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-3">
+            <div class="font-medium text-gray-900"><%= a.title %></div>
+            <% if a.featured? %><span class="text-xs text-church-gold font-semibold">Featured</span><% end %>
+          </td>
+          <td class="px-4 py-3 text-gray-500 hidden md:table-cell"><%= a.published_at&.strftime("%b %-d, %Y") %></td>
+          <td class="px-4 py-3 hidden md:table-cell">
+            <span class="text-xs px-2 py-0.5 rounded-full <%= a.published? ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' %>">
+              <%= a.published? ? "Live" : "Draft" %>
+            </span>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <%= link_to "Edit", edit_admin_announcement_path(a), class: "text-church-navy text-xs font-medium mr-3" %>
+            <%= button_to "Delete", admin_announcement_path(a), method: :delete, data: { confirm: "Delete?" }, class: "text-red-500 text-xs font-medium" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

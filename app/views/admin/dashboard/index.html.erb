@@ -1,0 +1,60 @@
+<% content_for :page_title, "Dashboard" %>
+
+<!-- Stats Grid -->
+<div class="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+  <% [
+    ["Sermons", @stats[:sermons], admin_sermons_path, "#1e3a5f"],
+    ["Sermon Series", @stats[:sermon_series], admin_sermon_series_index_path, "#2d5a8e"],
+    ["Upcoming Events", @stats[:events], admin_events_path, "#c9a84c"],
+    ["Small Groups", @stats[:groups], admin_groups_path, "#1e3a5f"],
+    ["Announcements", @stats[:announcements], admin_announcements_path, "#2d5a8e"],
+    ["New Prayers", @stats[:prayer_requests], admin_prayer_requests_path, "#dc2626"],
+  ].each do |label, count, path, color| %>
+    <%= link_to path, class: "bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow" do %>
+      <div class="text-3xl font-bold text-gray-900"><%= count %></div>
+      <div class="text-sm text-gray-500 mt-1"><%= label %></div>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-6">
+  <!-- Recent Sermons -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-900">Recent Sermons</h2>
+      <%= link_to "Add New", new_admin_sermon_path, class: "text-sm text-church-navy font-medium" %>
+    </div>
+    <ul class="divide-y divide-gray-50">
+      <% @recent_sermons.each do |sermon| %>
+        <li class="px-5 py-3 flex items-center justify-between">
+          <div>
+            <div class="text-sm font-medium text-gray-900"><%= sermon.title %></div>
+            <div class="text-xs text-gray-400"><%= sermon.preached_on&.strftime("%b %-d, %Y") %></div>
+          </div>
+          <%= link_to "Edit", edit_admin_sermon_path(sermon), class: "text-xs text-church-navy" %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <!-- Prayer Requests -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+      <h2 class="font-semibold text-gray-900">New Prayer Requests</h2>
+      <%= link_to "View All", admin_prayer_requests_path, class: "text-sm text-church-navy font-medium" %>
+    </div>
+    <ul class="divide-y divide-gray-50">
+      <% @recent_prayers.each do |pr| %>
+        <li class="px-5 py-3">
+          <div class="flex items-start justify-between gap-2">
+            <div class="text-sm font-medium text-gray-900"><%= pr.display_name %></div>
+            <span class="text-xs px-2 py-0.5 rounded-full flex-shrink-0 <%= pr.status == 'new' ? 'bg-red-100 text-red-700' : pr.status == 'praying' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700' %>">
+              <%= pr.status.humanize %>
+            </span>
+          </div>
+          <div class="text-xs text-gray-500 mt-0.5 line-clamp-2"><%= pr.request %></div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

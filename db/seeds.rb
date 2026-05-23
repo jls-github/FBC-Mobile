@@ -1,6 +1,12 @@
 # Clear existing data
 [Announcement, PrayerRequest, Group, Event, Sermon, SermonSeries].each(&:destroy_all)
 
+# Admin user
+User.find_or_create_by!(email_address: "admin@fbcenumclaw.org") do |u|
+  u.password = u.password_confirmation = "FBCadmin2026!"
+end
+puts "Admin login: admin@fbcenumclaw.org / FBCadmin2026!"
+
 # Sermon Series
 series1 = SermonSeries.create!(
   name: "Rooted in Grace",

@@ -1,0 +1,51 @@
+<%= render "admin/shared/form_errors", record: group %>
+<%= form_with model: [:admin, group], class: "space-y-5" do |f| %>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="md:col-span-2">
+      <%= f.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :name, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div class="md:col-span-2">
+      <%= f.label :description, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_area :description, rows: 3, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :category, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.select :category, Group::CATEGORIES.map { |c| [c.humanize.gsub("_", " "), c] }, {}, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :meeting_schedule, "Meeting Schedule", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :meeting_schedule, placeholder: "e.g. Tuesdays at 7pm", class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :location, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :location, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :capacity, "Capacity (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.number_field :capacity, min: 0, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :leader_name, "Leader Name", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.text_field :leader_name, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :leader_email, "Leader Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.email_field :leader_email, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div>
+      <%= f.label :image_url, "Image URL", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= f.url_field :image_url, class: "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-church-navy" %>
+    </div>
+    <div class="flex gap-6">
+      <label class="flex items-center gap-2">
+        <%= f.check_box :open_enrollment, class: "w-4 h-4 rounded accent-church-navy" %>
+        <span class="text-sm text-gray-700">Open Enrollment</span>
+      </label>
+    </div>
+  </div>
+  <div class="flex gap-3 pt-2">
+    <%= f.submit group.new_record? ? "Create Group" : "Save Changes", class: "bg-church-navy text-white font-semibold px-6 py-2.5 rounded-lg text-sm cursor-pointer" %>
+    <%= link_to "Cancel", admin_groups_path, class: "text-gray-600 text-sm px-4 py-2.5" %>
+  </div>
+<% end %>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+  <head>
+    <title>FBC Enumclaw Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="h-full">
+    <div class="min-h-full">
+      <!-- Sidebar -->
+      <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
+        <div class="flex flex-col flex-grow bg-church-navy overflow-y-auto">
+          <div class="flex items-center flex-shrink-0 px-4 py-5 border-b border-white/10">
+            <div class="w-8 h-8 bg-church-gold rounded-full flex items-center justify-center mr-3">
+              <svg class="w-5 h-5 text-church-navy" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-church-gold text-xs font-bold uppercase tracking-wide">FBC Enumclaw</div>
+              <div class="text-white/60 text-xs">Admin Console</div>
+            </div>
+          </div>
+          <nav class="flex-1 px-2 py-4 space-y-1">
+            <%= render "layouts/admin_nav_item", path: admin_root_path, label: "Dashboard", icon: "dashboard" %>
+            <div class="pt-4 pb-1 px-3">
+              <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Content</p>
+            </div>
+            <%= render "layouts/admin_nav_item", path: admin_sermons_path, label: "Sermons", icon: "play" %>
+            <%= render "layouts/admin_nav_item", path: admin_sermon_series_index_path, label: "Sermon Series", icon: "collection" %>
+            <%= render "layouts/admin_nav_item", path: admin_events_path, label: "Events", icon: "calendar" %>
+            <%= render "layouts/admin_nav_item", path: admin_announcements_path, label: "Announcements", icon: "bell" %>
+            <div class="pt-4 pb-1 px-3">
+              <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Community</p>
+            </div>
+            <%= render "layouts/admin_nav_item", path: admin_groups_path, label: "Groups", icon: "users" %>
+            <%= render "layouts/admin_nav_item", path: admin_prayer_requests_path, label: "Prayer Requests", icon: "prayer" %>
+            <div class="pt-4 pb-1 px-3">
+              <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Site</p>
+            </div>
+            <%= render "layouts/admin_nav_item", path: root_path, label: "View App", icon: "external" %>
+          </nav>
+          <div class="flex-shrink-0 p-4 border-t border-white/10">
+            <%= button_to "Sign Out", session_path, method: :delete, class: "w-full text-left text-white/60 hover:text-white text-sm flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors" do %>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"/>
+              </svg>
+              Sign Out
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="lg:pl-64 flex flex-col flex-1">
+        <!-- Top bar -->
+        <div class="sticky top-0 z-10 flex-shrink-0 flex h-14 bg-white shadow-sm">
+          <div class="flex-1 px-4 flex items-center justify-between">
+            <h1 class="text-lg font-semibold text-gray-900"><%= content_for(:page_title) { "Admin" } %></h1>
+            <% if notice.present? %>
+              <div class="bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full"><%= notice %></div>
+            <% end %>
+            <% if alert.present? %>
+              <div class="bg-red-100 text-red-800 text-sm px-3 py-1 rounded-full"><%= alert %></div>
+            <% end %>
+          </div>
+        </div>
+
+        <main class="flex-1 p-6">
+          <%= yield %>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

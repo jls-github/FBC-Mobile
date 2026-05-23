@@ -7,14 +7,28 @@ Rails.application.routes.draw do
   resources :groups, only: [:index, :show]
   resources :prayer_requests, only: [:index, :new, :create]
 
-  get "give", to: "pages#give", as: :give
-  get "about", to: "pages#about", as: :about
+  get "give",    to: "pages#give",    as: :give
+  get "about",   to: "pages#about",   as: :about
   get "contact", to: "pages#contact", as: :contact
 
-  # PWA
-  get "manifest", to: "pwa#manifest", as: :pwa_manifest
-  get "service-worker", to: "pwa#service_worker", as: :pwa_service_worker
+  # Admin
+  namespace :admin do
+    root "dashboard#index"
+    resources :sermons
+    resources :sermon_series
+    resources :events
+    resources :groups
+    resources :announcements
+    resources :prayer_requests, only: [:index, :show, :update, :destroy]
+  end
 
-  # Health check
+  # Auth
+  resource  :session
+  resources :passwords, param: :token
+
+  # PWA
+  get "manifest",       to: "pwa#manifest",        as: :pwa_manifest
+  get "service-worker", to: "pwa#service_worker",   as: :pwa_service_worker
+
   get "up" => "rails/health#show", as: :rails_health_check
 end
