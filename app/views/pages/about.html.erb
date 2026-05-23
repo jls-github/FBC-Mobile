@@ -1,0 +1,63 @@
+<div class="px-4 py-6">
+  <!-- Church Header -->
+  <div class="bg-church-navy rounded-2xl p-6 text-white text-center mb-6">
+    <div class="w-16 h-16 bg-church-gold rounded-full flex items-center justify-center mx-auto mb-3">
+      <svg class="w-8 h-8 text-church-navy" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <h1 class="text-xl font-bold">First Baptist Church</h1>
+    <p class="text-church-gold text-sm">of Enumclaw</p>
+    <p class="text-white/70 text-xs mt-2">A community rooted in faith, anchored in grace.</p>
+  </div>
+
+  <div class="space-y-4">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-bold text-gray-900 mb-2">Our Mission</h2>
+      <p class="text-gray-600 text-sm leading-relaxed">To glorify God by making disciples of Jesus Christ through worship, community, service, and the proclamation of the gospel — right here in Enumclaw and to the ends of the earth.</p>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-bold text-gray-900 mb-2">What We Believe</h2>
+      <div class="space-y-2">
+        <% [
+          ["The Bible", "We believe the Bible is the inspired, inerrant Word of God — our supreme authority for faith and life."],
+          ["The Trinity", "We believe in one God eternally existing in three persons: Father, Son, and Holy Spirit."],
+          ["Salvation by Grace", "We believe salvation comes through faith in Jesus Christ alone, by grace alone — not by works."],
+          ["The Church", "We believe the local church is central to God's redemptive plan in the world."],
+          ["The Return of Christ", "We believe in the personal, bodily return of Jesus Christ to establish His eternal kingdom."]
+        ].each do |title, desc| %>
+          <div class="flex items-start gap-2">
+            <div class="w-1.5 h-1.5 bg-church-gold rounded-full mt-1.5 flex-shrink-0"></div>
+            <div>
+              <span class="text-sm font-semibold text-gray-900"><%= title %>: </span>
+              <span class="text-sm text-gray-600"><%= desc %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+      <h2 class="font-bold text-gray-900 mb-3">Service Times</h2>
+      <div class="space-y-2">
+        <div class="flex justify-between items-center">
+          <span class="text-sm font-medium text-gray-900">Sunday Worship</span>
+          <span class="text-sm text-gray-500">10:30 AM</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm font-medium text-gray-900">Sunday School</span>
+          <span class="text-sm text-gray-500">9:15 AM</span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm font-medium text-gray-900">Wednesday Bible Study</span>
+          <span class="text-sm text-gray-500">7:00 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <%= link_to contact_path, class: "block w-full text-center bg-church-navy text-white font-bold py-3.5 rounded-2xl text-sm", data: { turbo_action: "advance" } do %>
+      Contact Us
+    <% end %>
+  </div>
+</div>

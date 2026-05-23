@@ -1,0 +1,53 @@
+<div class="px-4 py-4">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">Connect</h1>
+  <p class="text-gray-500 text-sm mb-4">Find community through Small Groups at FBC Enumclaw</p>
+
+  <!-- Category Filter -->
+  <div class="flex gap-2 overflow-x-auto pb-2 mb-4 -mx-4 px-4 scrollbar-hide">
+    <%= link_to "All Groups", groups_path, class: "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-medium #{params[:category].blank? ? 'bg-church-navy text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <% [["small_group","Small Groups"], ["mens","Men's"], ["womens","Women's"], ["youth","Youth"], ["young_adults","Young Adults"], ["seniors","Seniors"]].each do |cat, label| %>
+      <%= link_to label, groups_path(category: cat), class: "flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-medium #{params[:category] == cat ? 'bg-church-navy text-white' : 'bg-white text-gray-600 border border-gray-200'}" %>
+    <% end %>
+  </div>
+
+  <div class="space-y-3">
+    <% @groups.each do |group| %>
+      <%= link_to group_path(group), class: "block bg-white rounded-2xl shadow-sm border border-gray-100 p-4", data: { turbo_action: "advance" } do %>
+        <div class="flex items-start gap-3">
+          <div class="w-12 h-12 bg-church-navy rounded-xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-church-gold" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
+            </svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-semibold text-gray-900 text-sm leading-tight"><%= group.name %></h3>
+              <% if group.open_enrollment? %>
+                <span class="flex-shrink-0 text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Open</span>
+              <% end %>
+            </div>
+            <% if group.leader_name.present? %>
+              <p class="text-gray-500 text-xs mt-0.5">Led by <%= group.leader_name %></p>
+            <% end %>
+            <% if group.meeting_schedule.present? %>
+              <p class="text-gray-400 text-xs mt-0.5"><%= group.meeting_schedule %></p>
+            <% end %>
+            <p class="text-gray-600 text-xs mt-1 line-clamp-2"><%= group.description %></p>
+          </div>
+          <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+          </svg>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <!-- Not in a group CTA -->
+  <div class="mt-6 bg-gradient-to-r from-church-navy to-blue-800 rounded-2xl p-5 text-white">
+    <h3 class="font-bold text-base mb-1">Don't see a group that fits?</h3>
+    <p class="text-white/70 text-sm mb-3">We'd love to help you find community. Reach out and we'll connect you with the right group.</p>
+    <%= link_to contact_path, class: "inline-block bg-church-gold text-church-navy font-bold text-sm px-5 py-2 rounded-full", data: { turbo_action: "advance" } do %>
+      Contact Us
+    <% end %>
+  </div>
+</div>

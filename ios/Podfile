@@ -1,0 +1,6 @@
+platform :ios, '16.0'
+use_frameworks!
+
+target 'FBCEnumclaw' do
+  pod 'HotwireNative', '~> 1.1'
+end

@@ -1,0 +1,60 @@
+<div class="px-4 pt-4 pb-2">
+  <%= link_to sermons_path, class: "flex items-center gap-1 text-church-navy text-sm font-medium", data: { turbo_action: "advance" } do %>
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+    </svg>
+    Sermons
+  <% end %>
+</div>
+
+<!-- Series Header -->
+<% if @series.image_url.present? %>
+  <div class="relative h-52 overflow-hidden">
+    <img src="<%= @series.image_url %>" alt="<%= @series.name %>" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 p-5">
+      <p class="text-church-gold text-xs font-bold uppercase tracking-wide mb-1"><%= @series.year %> Series</p>
+      <h1 class="text-white text-2xl font-bold"><%= @series.name %></h1>
+    </div>
+  </div>
+<% else %>
+  <div class="bg-church-navy px-4 py-8">
+    <p class="text-church-gold text-xs font-bold uppercase tracking-wide mb-1"><%= @series.year %> Series</p>
+    <h1 class="text-white text-2xl font-bold"><%= @series.name %></h1>
+  </div>
+<% end %>
+
+<div class="px-4 py-4">
+  <% if @series.description.present? %>
+    <p class="text-gray-600 text-sm leading-relaxed mb-5"><%= @series.description %></p>
+  <% end %>
+
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="font-bold text-gray-900">Messages (<%= @sermons.count %>)</h2>
+  </div>
+
+  <div class="space-y-3">
+    <% @sermons.each_with_index do |sermon, i| %>
+      <%= link_to sermon_path(sermon), class: "flex gap-3 bg-white rounded-2xl p-4 shadow-sm border border-gray-100", data: { turbo_action: "advance" } do %>
+        <div class="w-10 h-10 bg-church-navy/10 rounded-xl flex items-center justify-center flex-shrink-0 text-church-navy font-bold text-sm">
+          <%= i + 1 %>
+        </div>
+        <div class="flex-1 min-w-0">
+          <h3 class="font-semibold text-gray-900 text-sm line-clamp-2 leading-tight"><%= sermon.title %></h3>
+          <div class="flex items-center gap-2 mt-0.5">
+            <% if sermon.preached_on %>
+              <span class="text-gray-400 text-xs"><%= sermon.preached_on.strftime("%b %-d") %></span>
+            <% end %>
+            <% if sermon.formatted_duration %>
+              <span class="text-gray-300 text-xs">·</span>
+              <span class="text-gray-400 text-xs"><%= sermon.formatted_duration %></span>
+            <% end %>
+          </div>
+        </div>
+        <svg class="w-4 h-4 text-gray-300 flex-shrink-0 mt-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+        </svg>
+      <% end %>
+    <% end %>
+  </div>
+</div>

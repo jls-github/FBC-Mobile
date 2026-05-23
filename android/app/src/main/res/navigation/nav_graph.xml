@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/webFragment">
+
+    <fragment
+        android:id="@+id/webFragment"
+        android:name="org.fbcenumclaw.app.WebFragment"
+        android:label="FBC Enumclaw" />
+
+    <dialog
+        android:id="@+id/modalWebFragment"
+        android:name="org.fbcenumclaw.app.ModalWebFragment"
+        android:label="Prayer" />
+
+</navigation>

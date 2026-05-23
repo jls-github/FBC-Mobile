@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+  <head>
+    <title>FBC Enumclaw</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FBC Enumclaw">
+    <meta name="description" content="First Baptist Church of Enumclaw – A community rooted in faith, anchored in grace.">
+    <link rel="manifest" href="/manifest">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body class="h-full bg-gray-50 font-sans antialiased native-<%= hotwire_native_app? ? 'app' : 'web' %>" data-controller="app">
+    <%# HTML header and bottom nav are hidden when running inside a Hotwire Native shell.
+        The native shell provides its own nav bar and tab bar via Strada bridge components. %>
+    <% unless hotwire_native_app? %>
+      <!-- Top Header (web only) -->
+      <header class="fixed top-0 left-0 right-0 z-50 bg-church-navy text-white safe-top" id="app-header">
+        <div class="flex items-center justify-between px-4 h-14">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-church-gold rounded-full flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-church-navy" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-church-gold leading-tight">FIRST BAPTIST CHURCH</div>
+              <div class="text-[10px] text-blue-200 leading-tight">OF ENUMCLAW</div>
+            </div>
+          </div>
+          <% if notice.present? %>
+            <div class="text-xs text-green-300 max-w-[200px] truncate"><%= notice %></div>
+          <% end %>
+        </div>
+      </header>
+    <% end %>
+
+    <!-- Flash Messages -->
+    <% if notice.present? %>
+      <div class="fixed top-14 left-0 right-0 z-40 bg-green-500 text-white text-sm px-4 py-2 text-center"
+           data-controller="flash" data-action="click->flash#dismiss">
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <!-- Main Content -->
+    <main class="<%= hotwire_native_app? ? 'pt-0 pb-0' : 'pt-14 pb-20' %> min-h-full" id="main-content">
+      <%= yield %>
+    </main>
+
+    <% unless hotwire_native_app? %>
+      <!-- Bottom Navigation (web only — native uses tab bar via Strada) -->
+      <nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 safe-bottom" id="bottom-nav">
+        <div class="grid grid-cols-5 h-16">
+          <%= render "layouts/nav_item", path: root_path, icon: "home", label: "Home", active_path: "/" %>
+          <%= render "layouts/nav_item", path: sermons_path, icon: "play", label: "Sermons", active_path: "/sermons" %>
+          <%= render "layouts/nav_item", path: events_path, icon: "calendar", label: "Events", active_path: "/events" %>
+          <%= render "layouts/nav_item", path: groups_path, icon: "users", label: "Connect", active_path: "/groups" %>
+          <%= render "layouts/nav_item", path: give_path, icon: "heart", label: "Give", active_path: "/give" %>
+        </div>
+      </nav>
+    <% end %>
+  </body>
+</html>

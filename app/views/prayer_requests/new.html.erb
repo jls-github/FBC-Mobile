@@ -1,0 +1,11 @@
+<div class="px-4 py-4">
+  <div class="px-4 pb-2">
+    <%= link_to prayer_requests_path, class: "flex items-center gap-1 text-church-navy text-sm font-medium", data: { turbo_action: "advance" } do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+      </svg>
+      Back
+    <% end %>
+  </div>
+  <%= render "form", prayer_request: @prayer_request %>
+</div>

@@ -1,0 +1,2 @@
+-keep class org.fbcenumclaw.** { *; }
+-keep class dev.hotwire.** { *; }

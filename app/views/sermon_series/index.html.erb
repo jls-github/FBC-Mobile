@@ -1,0 +1,39 @@
+<div class="px-4 py-4">
+  <h1 class="text-2xl font-bold text-gray-900 mb-1">Sermon Series</h1>
+  <p class="text-gray-500 text-sm mb-4">Explore our message series</p>
+
+  <div class="space-y-4">
+    <% @series.each do |series| %>
+      <%= link_to sermon_series_path(series), class: "block bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden", data: { turbo_action: "advance" } do %>
+        <% if series.image_url.present? %>
+          <div class="relative h-40 overflow-hidden">
+            <img src="<%= series.image_url %>" alt="<%= series.name %>" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-4">
+              <% if series.featured? %>
+                <span class="text-xs font-bold text-church-gold uppercase tracking-wide">Featured Series</span>
+              <% end %>
+              <h3 class="text-white font-bold text-lg leading-tight"><%= series.name %></h3>
+            </div>
+          </div>
+        <% else %>
+          <div class="bg-church-navy p-5">
+            <% if series.featured? %>
+              <span class="text-xs font-bold text-church-gold uppercase tracking-wide">Featured Series</span>
+            <% end %>
+            <h3 class="text-white font-bold text-lg leading-tight"><%= series.name %></h3>
+          </div>
+        <% end %>
+        <div class="p-4">
+          <% if series.description.present? %>
+            <p class="text-gray-600 text-sm line-clamp-2 mb-2"><%= series.description %></p>
+          <% end %>
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-gray-400"><%= series.sermon_count %> messages · <%= series.year %></span>
+            <span class="text-church-navy text-xs font-semibold">View Series →</span>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
