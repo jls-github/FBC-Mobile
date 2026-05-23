@@ -1,5 +1,12 @@
 # See https://git-scm.com/docs/gitattributes for more about git attribute files.
 
+# Ensure shell scripts and Ruby bin/ stubs always use LF line endings
+# so they work correctly inside Linux Docker containers even when checked
+# out on Windows (which defaults to CRLF).
+* text=auto eol=lf
+*.sh text eol=lf
+bin/* text eol=lf
+
 # Mark the database schema as having been generated.
 db/schema.rb linguist-generated
 
