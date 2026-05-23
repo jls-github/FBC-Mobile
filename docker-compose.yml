@@ -10,7 +10,7 @@ services:
       - bundle_cache:/usr/local/bundle
     environment:
       - RAILS_ENV=development
-    command: bash -c "bundle install && bin/rails db:prepare && bin/rails tailwindcss:build && bin/rails server -b 0.0.0.0"
+    command: bash -c "find bin/ -type f | xargs sed -i 's/\r$//' && bundle install && bundle exec rails db:prepare db:seed && bundle exec rails tailwindcss:build && bundle exec rails server -b 0.0.0.0"
 
 volumes:
   bundle_cache:

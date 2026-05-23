@@ -23,4 +23,8 @@ RUN bundle install
 
 COPY . .
 
+# Strip Windows CRLF line endings from bin/ scripts so they execute
+# correctly in Linux even when checked out on Windows.
+RUN sed -i 's/\r$//' bin/*
+
 EXPOSE 3000
