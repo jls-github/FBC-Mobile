@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "screenshots": "replace"
+  },
+  "rules": [
+    {
+      "patterns": ["/"],
+      "properties": {
+        "context": "default",
+        "uri": "turbo://fragment/home",
+        "pull_to_refresh_enabled": true
+      }
+    },
+    {
+      "patterns": ["/sermons", "/sermon_series", "/events", "/groups"],
+      "properties": {
+        "context": "default",
+        "pull_to_refresh_enabled": true
+      }
+    },
+    {
+      "patterns": ["/sermons/\\d+", "/sermon_series/\\d+"],
+      "properties": {
+        "context": "default",
+        "pull_to_refresh_enabled": false
+      }
+    },
+    {
+      "patterns": ["/events/\\d+", "/groups/\\d+"],
+      "properties": {
+        "context": "default",
+        "pull_to_refresh_enabled": false
+      }
+    },
+    {
+      "patterns": ["/prayer_requests", "/prayer_requests/new"],
+      "properties": {
+        "context": "modal",
+        "pull_to_refresh_enabled": false
+      }
+    },
+    {
+      "patterns": ["/give", "/about", "/contact"],
+      "properties": {
+        "context": "default",
+        "pull_to_refresh_enabled": false
+      }
+    }
+  ]
+}
